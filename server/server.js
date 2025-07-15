@@ -49,6 +49,5 @@ app.use("/shop/order", shopOrderRouter);
 
 app.listen(port,()=>{
     console.log(`Server is running on the http://localhost:${port}`);
-    connectDb();
-    
+    connectDb(); 
 })

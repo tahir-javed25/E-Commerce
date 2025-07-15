@@ -72,7 +72,6 @@ const ProductList = () => {
   const handleSort = (value) => {
     //onValueChange always give us the direct value, not the event from which we have to extract the value.
     setSort(value);
-    dispatch;
   };
 
   const handleOpenDetails = (productId) => {
@@ -117,9 +116,7 @@ const ProductList = () => {
     // console.log(filters, "Filters");
   }, [filters]);
 
-//   useEffect(() => {
-//   sessionStorage.setItem("filters", JSON.stringify(filters));
-// }, [filters]);
+
 
   useEffect(() => {
     dispatch(

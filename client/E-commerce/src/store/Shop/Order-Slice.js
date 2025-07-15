@@ -21,6 +21,17 @@ export const createNewOrder = createAsyncThunk(
     return response.data;
   }
 );
+export const confirmOrder = createAsyncThunk(
+  "/order/confirmOrder",
+  async ({orderId,userId}) => {
+    const response = await axios.put(
+      `http://localhost:3000/shop/order/confirm/${orderId}/${userId}`);
+
+    console.log(response.data);
+    
+    return response.data;
+  }
+);
 
 
 

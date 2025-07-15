@@ -15,33 +15,33 @@ export const getAllFilteredProducts = async (req,res)=>{
         if(brand.length){
             filter["brand"] = {$in:brand.split(",")};
         }
-         let sort = {};
+         let sorted = {};
 
     switch (sort) {
       case "price-lowtohigh":
-        sort.price = 1;
+        sorted.price = 1;
 
         break;
       case "price-hightolow":
-        sort.price = -1;
+        sorted.price = -1;
 
         break;
       case "title-atoz":
-        sort.title = 1;
+        sorted.title = 1;
 
         break;
 
       case "title-ztoa":
-        sort.title = -1;
+        sorted.title = -1;
 
         break;
 
       default:
-        sort.price = 1;
+        sorted.price = 1;
         break;
     }
 
-        const products = await Products.find(filter).sort();
+        const products = await Products.find(filter).sort(sorted);
         // console.log(products);
 
         res.status(200).json({

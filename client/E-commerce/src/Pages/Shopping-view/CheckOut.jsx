@@ -2,7 +2,7 @@ import Address from "@/components/Shopping-Components/Address";
 import UserCartItemsContent from "@/components/Shopping-Components/Cart-content";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { createNewOrder } from "@/store/Shop/Order-Slice";
+import { confirmOrder, createNewOrder } from "@/store/Shop/Order-Slice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -65,7 +65,7 @@ const CheckOut = () => {
         phone: currentSelectedAddress?.phone,
         notes: currentSelectedAddress?.notes,
       },
-      orderStatus: "pending",
+      orderStatus: "initiated",
       paymentMethod: "COD",
       totalAmount: totalCartAmount,
       orderDate: new Date(),
@@ -73,13 +73,37 @@ const CheckOut = () => {
     };
 
      dispatch(createNewOrder(orderData)).then((data) => {
-      // console.log(data, "sangam");
       if (data?.payload?.success) {
         setOrderId(data?.payload?.orderId)
+        
       } 
     });
 
+      }
 
+      const confirmCheckout =(orderId)=>{
+        console.log(user?._id);
+        const userId = user?._id;
+        
+        dispatch(confirmOrder({orderId,userId})
+      ).then((data) => {
+          console.log(data?.payload);
+          
+      if (data?.payload?.success) {
+         toast({
+            title: "Order Confirmed",
+          })
+      } 
+    });
+
+      }
+
+      const actionCheckout = ()=>{
+        if (orderId) {
+          confirmCheckout(orderId)
+        }else{
+          handleInitialOrder()
+        }
       }
 
       // console.log(cartItems);
@@ -107,7 +131,7 @@ const CheckOut = () => {
           </div>
         </div>
         <div className="mt-4 w-full">
-          <Button onClick={handleInitialOrder} className="w-full">
+          <Button onClick={actionCheckout} className="w-full">
            {orderId ? "Confirm Order" : "Checkout"}
             </Button>
         </div>
